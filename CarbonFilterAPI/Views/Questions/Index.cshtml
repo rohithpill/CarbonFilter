@@ -1,0 +1,71 @@
+﻿@model IEnumerable<CarbonFilter.Models.Question>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.QuestionNum)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.QuestionName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InfoNotes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.kgCo2eEmissions)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DropDown)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageId)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.QuestionNum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QuestionName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InfoNotes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.kgCo2eEmissions)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DropDown.DropDownName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category.CategoryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ImageId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.QuestionId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.QuestionId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.QuestionId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

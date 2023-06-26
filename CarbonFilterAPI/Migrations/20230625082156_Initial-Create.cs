@@ -4,10 +4,10 @@
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace CarbonFilter.Migrations
+namespace CarbonFilterAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class _1create : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -107,7 +107,7 @@ namespace CarbonFilter.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PickLists",
+                name: "PickListItems",
                 columns: table => new
                 {
                     PickListItemId = table.Column<int>(type: "int", nullable: false)
@@ -118,9 +118,9 @@ namespace CarbonFilter.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PickLists", x => x.PickListItemId);
+                    table.PrimaryKey("PK_PickListItems", x => x.PickListItemId);
                     table.ForeignKey(
-                        name: "FK_PickLists_Questions_QuestionId",
+                        name: "FK_PickListItems_Questions_QuestionId",
                         column: x => x.QuestionId,
                         principalTable: "Questions",
                         principalColumn: "QuestionId",
@@ -149,9 +149,9 @@ namespace CarbonFilter.Migrations
                         principalTable: "DropDownOptions",
                         principalColumn: "DropDownOptionId");
                     table.ForeignKey(
-                        name: "FK_Responses_PickLists_PickListItemId",
+                        name: "FK_Responses_PickListItems_PickListItemId",
                         column: x => x.PickListItemId,
-                        principalTable: "PickLists",
+                        principalTable: "PickListItems",
                         principalColumn: "PickListItemId");
                     table.ForeignKey(
                         name: "FK_Responses_Questions_QuestionId",
@@ -314,7 +314,7 @@ namespace CarbonFilter.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "PickLists",
+                table: "PickListItems",
                 columns: new[] { "PickListItemId", "PickListItemDescription", "PickListItemName", "QuestionId" },
                 values: new object[,]
                 {
@@ -343,8 +343,8 @@ namespace CarbonFilter.Migrations
                 column: "DropDownId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PickLists_QuestionId",
-                table: "PickLists",
+                name: "IX_PickListItems_QuestionId",
+                table: "PickListItems",
                 column: "QuestionId");
 
             migrationBuilder.CreateIndex(
@@ -399,7 +399,7 @@ namespace CarbonFilter.Migrations
                 name: "DropDownOptions");
 
             migrationBuilder.DropTable(
-                name: "PickLists");
+                name: "PickListItems");
 
             migrationBuilder.DropTable(
                 name: "Questions");

@@ -2,9 +2,8 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.InteropServices;
-using CarbonFilter.Models;
 
-namespace AspReactProject1.Models
+namespace CarbonFilter.Models
 {
     public class Question
     {
@@ -41,8 +40,6 @@ namespace AspReactProject1.Models
         [AllowNull]
         [Column(TypeName = "int")]
         public int? ImageId { get; set; }
-
-        public ICollection<PickListItem>? PickListItems { get; set; }
 
     }
 }

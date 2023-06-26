@@ -1,5 +1,4 @@
-﻿using AspReactProject1.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace CarbonFilter.Models
 {
@@ -22,7 +21,7 @@ namespace CarbonFilter.Models
         public DbSet<Category> Categories { get; set; }
         public DbSet<DropDown> DropDowns { get; set; }
         public DbSet<DropDownOption> DropDownOptions { get; set; }
-        public DbSet<PickListItem> PickLists { get; set; }
+        public DbSet<PickListItem> PickListItems { get; set; }
         public DbSet<Response> Responses { get; set; }
         public DbSet<UserResponse> UserResponses { get; set; }
 

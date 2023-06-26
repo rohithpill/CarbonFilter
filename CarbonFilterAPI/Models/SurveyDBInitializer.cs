@@ -1,5 +1,4 @@
-﻿using AspReactProject1.Models;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace CarbonFilter.Models
 {

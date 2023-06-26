@@ -17,7 +17,7 @@ CREATE FUNCTION GetQuestionPickList
 RETURNS TABLE
 AS
 RETURN
-SELECT PickListItemName FROM PickLists WHERE @QuestionId = QuestionId
+SELECT PickListItemName FROM PickListItems WHERE @QuestionId = QuestionId
 
 
 GO
@@ -73,7 +73,7 @@ CASE WHEN MaxValue IS NULL THEN  '' ELSE ' - ' + CAST(CAST(MaxValue AS INT) AS N
 
 FROM Categories C
 INNER JOIN Questions Q on Q.CategoryId = C.CategoryId
-LEFT JOIN PickLists P on Q.QuestionId = P.QuestionId
+LEFT JOIN PickListItems P on Q.QuestionId = P.QuestionId
 LEFT JOIN DropDowns D on Q.DropDownId = D.DropDownId
 LEFT JOIN DropDownOptions DO on DO.DropDownId = D.DropDownId
 
@@ -85,7 +85,7 @@ QuestionName,
 PickListItemName
 FROM Categories C
 INNER JOIN Questions Q on Q.CategoryId = C.CategoryId
-LEFT JOIN PickLists P on Q.QuestionId = P.QuestionId
+LEFT JOIN PickListItems P on Q.QuestionId = P.QuestionId
 
 SELECT 
 CategoryName,
