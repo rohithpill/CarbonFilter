@@ -9,6 +9,9 @@ namespace CarbonFilter.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);            
+            modelBuilder.UseOpenIddict();
+
             SurveyDBInitializer.InsertCategories(modelBuilder);
             SurveyDBInitializer.InsertDropDowns(modelBuilder);
             SurveyDBInitializer.InsertDropDownOptions(modelBuilder);

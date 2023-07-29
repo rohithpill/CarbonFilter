@@ -1,5 +1,6 @@
 ﻿using CarbonFilter.Models;
 using CarbonFilterAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ namespace CarbonFilterAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class QuestionsDisplayController : ControllerBase
     {
 
