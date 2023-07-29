@@ -916,10 +916,10 @@ namespace CarbonFilterAPI.Migrations
             modelBuilder.Entity("CarbonFilter.Models.Response", b =>
                 {
                     b.Property<int>("ResponseId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ResponseId"));
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("DropDownOptionId")
                         .HasColumnType("int");
@@ -933,19 +933,10 @@ namespace CarbonFilterAPI.Migrations
                     b.Property<int?>("PickListItemId")
                         .HasColumnType("int");
 
-                    b.Property<int>("QuestionId")
-                        .HasColumnType("int");
-
                     b.Property<string>("kgCo2eEmissions")
                         .HasColumnType("nvarchar(2000)");
 
-                    b.HasKey("ResponseId");
-
-                    b.HasIndex("DropDownOptionId");
-
-                    b.HasIndex("PickListItemId");
-
-                    b.HasIndex("QuestionId");
+                    b.HasKey("ResponseId", "QuestionId");
 
                     b.ToTable("Responses");
                 });
@@ -971,6 +962,16 @@ namespace CarbonFilterAPI.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<string>("UserPassword")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<bool?>("isEmailVerified")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("isMobileVerified")
+                        .HasColumnType("bit");
+
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
@@ -991,10 +992,6 @@ namespace CarbonFilterAPI.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("UserResponseId");
-
-                    b.HasIndex("ResponseId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("UserResponses");
                 });
@@ -1237,48 +1234,6 @@ namespace CarbonFilterAPI.Migrations
                     b.Navigation("Category");
 
                     b.Navigation("DropDown");
-                });
-
-            modelBuilder.Entity("CarbonFilter.Models.Response", b =>
-                {
-                    b.HasOne("CarbonFilter.Models.DropDownOption", "DropDownOption")
-                        .WithMany()
-                        .HasForeignKey("DropDownOptionId");
-
-                    b.HasOne("CarbonFilter.Models.PickListItem", "PickListItem")
-                        .WithMany()
-                        .HasForeignKey("PickListItemId");
-
-                    b.HasOne("CarbonFilter.Models.Question", "Question")
-                        .WithMany()
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("DropDownOption");
-
-                    b.Navigation("PickListItem");
-
-                    b.Navigation("Question");
-                });
-
-            modelBuilder.Entity("CarbonFilter.Models.UserResponse", b =>
-                {
-                    b.HasOne("CarbonFilter.Models.Response", "Response")
-                        .WithMany()
-                        .HasForeignKey("ResponseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CarbonFilter.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Response");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("OpenIddict.EntityFrameworkCore.Models.OpenIddictEntityFrameworkCoreAuthorization", b =>

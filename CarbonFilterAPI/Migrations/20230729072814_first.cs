@@ -83,15 +83,49 @@ namespace CarbonFilterAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Responses",
+                columns: table => new
+                {
+                    ResponseId = table.Column<int>(type: "int", nullable: false),
+                    QuestionId = table.Column<int>(type: "int", nullable: false),
+                    InfoNotes = table.Column<string>(type: "nvarchar(2000)", nullable: true),
+                    kgCo2eEmissions = table.Column<string>(type: "nvarchar(2000)", nullable: true),
+                    PickListItemId = table.Column<int>(type: "int", nullable: true),
+                    DropDownOptionId = table.Column<int>(type: "int", nullable: true),
+                    ImageId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Responses", x => new { x.ResponseId, x.QuestionId });
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserResponses",
+                columns: table => new
+                {
+                    UserResponseId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    ResponseId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserResponses", x => x.UserResponseId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
                     UserId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserName = table.Column<string>(type: "nvarchar(200)", nullable: false),
+                    UserPassword = table.Column<string>(type: "nvarchar(200)", nullable: false),
                     UserEmail = table.Column<string>(type: "nvarchar(200)", nullable: true),
                     UserMobileNumber = table.Column<string>(type: "nvarchar(10)", nullable: true),
-                    UserFootPrint = table.Column<decimal>(type: "decimal(10,4)", nullable: true)
+                    UserFootPrint = table.Column<decimal>(type: "decimal(10,4)", nullable: true),
+                    isMobileVerified = table.Column<bool>(type: "bit", nullable: true),
+                    isEmailVerified = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -225,66 +259,6 @@ namespace CarbonFilterAPI.Migrations
                         column: x => x.AuthorizationId,
                         principalTable: "OpenIddictAuthorizations",
                         principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Responses",
-                columns: table => new
-                {
-                    ResponseId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    QuestionId = table.Column<int>(type: "int", nullable: false),
-                    InfoNotes = table.Column<string>(type: "nvarchar(2000)", nullable: true),
-                    kgCo2eEmissions = table.Column<string>(type: "nvarchar(2000)", nullable: true),
-                    PickListItemId = table.Column<int>(type: "int", nullable: true),
-                    DropDownOptionId = table.Column<int>(type: "int", nullable: true),
-                    ImageId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Responses", x => x.ResponseId);
-                    table.ForeignKey(
-                        name: "FK_Responses_DropDownOptions_DropDownOptionId",
-                        column: x => x.DropDownOptionId,
-                        principalTable: "DropDownOptions",
-                        principalColumn: "DropDownOptionId");
-                    table.ForeignKey(
-                        name: "FK_Responses_PickListItems_PickListItemId",
-                        column: x => x.PickListItemId,
-                        principalTable: "PickListItems",
-                        principalColumn: "PickListItemId");
-                    table.ForeignKey(
-                        name: "FK_Responses_Questions_QuestionId",
-                        column: x => x.QuestionId,
-                        principalTable: "Questions",
-                        principalColumn: "QuestionId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "UserResponses",
-                columns: table => new
-                {
-                    UserResponseId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    ResponseId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserResponses", x => x.UserResponseId);
-                    table.ForeignKey(
-                        name: "FK_UserResponses_Responses_ResponseId",
-                        column: x => x.ResponseId,
-                        principalTable: "Responses",
-                        principalColumn: "ResponseId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserResponses_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "UserId",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.InsertData(
@@ -492,36 +466,14 @@ namespace CarbonFilterAPI.Migrations
                 name: "IX_Questions_DropDownId",
                 table: "Questions",
                 column: "DropDownId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Responses_DropDownOptionId",
-                table: "Responses",
-                column: "DropDownOptionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Responses_PickListItemId",
-                table: "Responses",
-                column: "PickListItemId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Responses_QuestionId",
-                table: "Responses",
-                column: "QuestionId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserResponses_ResponseId",
-                table: "UserResponses",
-                column: "ResponseId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_UserResponses_UserId",
-                table: "UserResponses",
-                column: "UserId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "DropDownOptions");
+
             migrationBuilder.DropTable(
                 name: "OpenIddictScopes");
 
@@ -529,28 +481,25 @@ namespace CarbonFilterAPI.Migrations
                 name: "OpenIddictTokens");
 
             migrationBuilder.DropTable(
-                name: "UserResponses");
-
-            migrationBuilder.DropTable(
-                name: "OpenIddictAuthorizations");
+                name: "PickListItems");
 
             migrationBuilder.DropTable(
                 name: "Responses");
 
             migrationBuilder.DropTable(
+                name: "UserResponses");
+
+            migrationBuilder.DropTable(
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "OpenIddictApplications");
-
-            migrationBuilder.DropTable(
-                name: "DropDownOptions");
-
-            migrationBuilder.DropTable(
-                name: "PickListItems");
+                name: "OpenIddictAuthorizations");
 
             migrationBuilder.DropTable(
                 name: "Questions");
+
+            migrationBuilder.DropTable(
+                name: "OpenIddictApplications");
 
             migrationBuilder.DropTable(
                 name: "Categories");

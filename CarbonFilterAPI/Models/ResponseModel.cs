@@ -2,19 +2,20 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
 
 namespace CarbonFilter.Models
 {
+    [PrimaryKey(nameof(ResponseId), nameof(QuestionId))]
     public class Response
     {
 
-        [Key]
+        //[Key, Column(Order = 0)]
         public int ResponseId { get; set; }
 
-        [Required]
-        [ForeignKey("Question")]
-        public int QuestionId { get; set; }
-        public Question? Question { get; set; }
+        //[Key, Column(Order = 1)]
+        [Required]        
+        public int QuestionId { get; set; }        
 
         [AllowNull]
         [Column(TypeName = "nvarchar(2000)")]
@@ -26,15 +27,11 @@ namespace CarbonFilter.Models
 
         [AllowNull]
         [Column(TypeName = "int")]
-        [ForeignKey("PickListItem")]
         public int? PickListItemId { get; set; }
-        public PickListItem? PickListItem { get; set; }
 
         [AllowNull]
         [Column(TypeName = "int")]
-        [ForeignKey("DropDownOption")]
         public int? DropDownOptionId { get; set; }
-        public DropDownOption? DropDownOption { get; set; }
 
         [AllowNull]
         [Column(TypeName = "int")]
